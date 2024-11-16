@@ -1,4 +1,4 @@
-module github.com/stdutil/pkg
+module github.com/stdutil/std
 
 go 1.23.2
 
