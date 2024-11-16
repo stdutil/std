@@ -1,3 +1,7 @@
+// Package std is a package that offers standard functions
+//
+//	Author: Elizalde G. Baguinon
+//	Created: October 17, 2019
 package std
 
 import (
