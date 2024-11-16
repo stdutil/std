@@ -4,5 +4,7 @@ github.com/stdutil/crypt v0.0.0-20241115234648-6f4f450b043e h1:3dKn98dj02CGfAQ8t
 github.com/stdutil/crypt v0.0.0-20241115234648-6f4f450b043e/go.mod h1:qatC7b97F+UoP8nTIRNFvYXZTexkkbKtIgN2iKcFcHM=
 github.com/stdutil/generator v0.0.0-20241115235819-c391b4c3900c h1:cIGKXD5G9vOSa+14xEH/8tHOmmiPKad1MXHoBJ1mnlc=
 github.com/stdutil/generator v0.0.0-20241115235819-c391b4c3900c/go.mod h1:IUIO2ZZWo5Z35WAm8fhBwM7+9UFMF/d6CbnjjL3kjB0=
+github.com/stdutil/string v0.0.0-20241116004443-d39e19f679c7 h1:esKGjBD/WIa23Htk5WGYpKpj+hwoe94wblV+8Cx+jLE=
+github.com/stdutil/string v0.0.0-20241116004443-d39e19f679c7/go.mod h1:NOa7fWNfZ8WhhJL/VJoHJIocDPmRLtVyrAM9wb+xL3w=
 golang.org/x/exp v0.0.0-20241108190413-2d47ceb2692f h1:XdNn9LlyWAhLVp6P/i8QYBW+hlyhrhei9uErw2B5GJo=
 golang.org/x/exp v0.0.0-20241108190413-2d47ceb2692f/go.mod h1:D5SMRVC3C2/4+F/DB1wZsLRnSNimn2Sp/NPsCrsv8ak=

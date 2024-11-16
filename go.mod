@@ -10,4 +10,5 @@ require (
 require (
 	github.com/stdutil/crypt v0.0.0-20241115234648-6f4f450b043e
 	github.com/stdutil/generator v0.0.0-20241115235819-c391b4c3900c
+	github.com/stdutil/string v0.0.0-20241116004443-d39e19f679c7
 )

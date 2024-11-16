@@ -1,4 +1,4 @@
-package pkg
+package std
 
 import (
 	"fmt"
@@ -10,12 +10,14 @@ import (
 	ssd "github.com/shopspring/decimal"
 	cry "github.com/stdutil/crypt"
 	gen "github.com/stdutil/generator"
+	str "github.com/stdutil/string"
 	"golang.org/x/exp/constraints"
 )
 
 var (
 	Crypt     cry.Crypt
 	Generator gen.Generator
+	String    str.String
 )
 
 type (
@@ -32,6 +34,7 @@ type (
 func init() {
 	Crypt = cry.Crypt{}
 	Generator = gen.Generator{}
+	String = str.String{}
 }
 
 // AnyToString converts any variable to string
