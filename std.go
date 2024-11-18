@@ -12,16 +12,7 @@ import (
 	"time"
 
 	ssd "github.com/shopspring/decimal"
-	cry "github.com/stdutil/crypt"
-	gen "github.com/stdutil/generator"
-	str "github.com/stdutil/string"
 	"golang.org/x/exp/constraints"
-)
-
-var (
-	Crypt     cry.Crypt
-	Generator gen.Generator
-	String    str.String
 )
 
 type (
@@ -34,12 +25,6 @@ type (
 		Length int    // Fixed length of the series
 	}
 )
-
-func init() {
-	Crypt = cry.Crypt{}
-	Generator = gen.Generator{}
-	String = str.String{}
-}
 
 // AnyToString converts any variable to string
 func AnyToString(value interface{}) string {
