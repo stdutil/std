@@ -318,6 +318,23 @@ func IsNumeric(value string) error {
 	return nil
 }
 
+// IsInterfaceNil checks if an interface is nil
+func IsInterfaceNil(i interface{}) bool {
+	if i == nil {
+		return true
+	}
+	iv := reflect.ValueOf(i)
+	if !iv.IsValid() {
+		return true
+	}
+	switch iv.Kind() {
+	case reflect.Ptr, reflect.Slice, reflect.Map, reflect.Func, reflect.Interface:
+		return iv.IsNil()
+	default:
+		return false
+	}
+}
+
 // MapVal retrieves a value from a map by a key and converts it to the type indicated by T.
 // Returns a pointer to the value if found, or nil if not found.
 //
