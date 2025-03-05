@@ -28,3 +28,5 @@ func TestIsInterfaceNil(t *testing.T) {
 	ifc = nil
 	t.Log(IsInterfaceNil(ifc))
 }
+
+
