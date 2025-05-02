@@ -11,6 +11,8 @@ import (
 	"sync"
 	"time"
 
+	"slices"
+
 	ssd "github.com/shopspring/decimal"
 	"golang.org/x/exp/constraints"
 )
@@ -18,6 +20,9 @@ import (
 type (
 	FieldTypeConstraint interface {
 		constraints.Ordered | time.Time | ssd.Decimal | bool | byte
+	}
+	NumberConstraint interface {
+		constraints.Integer | constraints.Float | ssd.Decimal | byte
 	}
 	SeriesOptions struct {
 		Prefix string // Prefix of series
@@ -266,15 +271,10 @@ func If[T constraints.Ordered](subject any, truthy T, falsey T) T {
 //
 // This function requires version 1.18+
 func In[T comparable](seek T, list ...T) bool {
-	for _, li := range list {
-		if li == seek {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(list, seek)
 }
 
-// IsNullOrEmpty checks for emptiness of a pointer variable ignoring nullity
+// IsEmpty checks for emptiness of a pointer variable ignoring nullity
 //
 // Currently supported data types are:
 //   - constraints.Ordered (Integer | Float | ~string)
@@ -284,13 +284,6 @@ func In[T comparable](seek T, list ...T) bool {
 //
 // This function requires version 1.18+
 func IsEmpty[T FieldTypeConstraint](value *T) bool {
-	// if value == nil {
-	// 	return false
-	// }
-	// if *value == GetZero[T]() {
-	// 	return true
-	// }
-	// return false
 	return value != nil && *value == getZero[T]()
 }
 
@@ -319,7 +312,7 @@ func IsNumeric(value string) error {
 }
 
 // IsInterfaceNil checks if an interface is nil
-func IsInterfaceNil(i interface{}) bool {
+func IsInterfaceNil(i any) bool {
 	if i == nil {
 		return true
 	}
@@ -333,6 +326,23 @@ func IsInterfaceNil(i interface{}) bool {
 	default:
 		return false
 	}
+}
+
+// Default returns the custom value if it is non-zero. Otherwise, the default is returned
+//
+// Currently supported data types are:
+//   - constraints.Ordered (Integer | Float | ~string)
+//   - time.Time
+//   - bool
+//   - shopspring/decimal
+//
+// This function requires version 1.18+
+func Default[T FieldTypeConstraint](custom T, def T) T {
+	var zero T
+	if zero == custom {
+		return def
+	}
+	return def
 }
 
 // MapVal retrieves a value from a map by a key and converts it to the type indicated by T.
