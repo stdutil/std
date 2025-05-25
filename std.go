@@ -658,7 +658,7 @@ func ToInterfaceArray[T FieldTypeConstraint](value T) []any {
 	return val[:]
 }
 
-// Val gets the value of a pointer in order
+// Val gets the value of a pointer in order to desired type constrained by FieldTypeConstraints
 //
 // Currently supported data types are:
 //   - constraints.Ordered (Integer | Float | ~string)
@@ -668,10 +668,30 @@ func ToInterfaceArray[T FieldTypeConstraint](value T) []any {
 //
 // This function requires version 1.18+
 func Val[T FieldTypeConstraint](value *T) T {
-	if value == nil {
+	if IsInterfaceNil(value) {
 		return getZero[T]()
 	}
 	return *value
+}
+
+// AnyVal converts the value of any type to desired type constrained by FieldTypeConstraints
+//
+// Currently supported data types are:
+//   - constraints.Ordered (Integer | Float | ~string)
+//   - time.Time
+//   - bool
+//   - shopspring/decimal
+//
+// This function requires version 1.18+
+func AnyVal[T FieldTypeConstraint](value any) T {
+	if IsInterfaceNil(value) {
+		return getZero[T]()
+	}
+	v, ok := value.(T)
+	if !ok {
+		return getZero[T]()
+	}
+	return v
 }
 
 func getZero[T FieldTypeConstraint | bool]() T {
