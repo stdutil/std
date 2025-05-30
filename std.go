@@ -13,7 +13,6 @@ import (
 
 	"slices"
 
-	"github.com/shopspring/decimal"
 	ssd "github.com/shopspring/decimal"
 	"golang.org/x/exp/constraints"
 )
@@ -754,16 +753,16 @@ func AnyVal[T FieldTypeConstraint](value any) T {
 				}
 			}
 		}
-	case decimal.Decimal:
+	case ssd.Decimal:
 		switch v := value.(type) {
 		case string:
-			if d, err := decimal.NewFromString(v); err == nil {
+			if d, err := ssd.NewFromString(v); err == nil {
 				return any(d).(T)
 			}
 		case float64:
-			return any(decimal.NewFromFloat(v)).(T)
+			return any(ssd.NewFromFloat(v)).(T)
 		case int:
-			return any(decimal.NewFromInt(int64(v))).(T)
+			return any(ssd.NewFromInt(int64(v))).(T)
 		}
 	}
 	return v
