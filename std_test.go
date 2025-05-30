@@ -29,4 +29,10 @@ func TestIsInterfaceNil(t *testing.T) {
 	t.Log(IsInterfaceNil(ifc))
 }
 
-
+func TestAnyVal(t *testing.T) {
+	val := AnyVal[int]("1")
+	if val == 0 {
+		t.Fail()
+	}
+	t.Log(val)
+}

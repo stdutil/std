@@ -13,6 +13,7 @@ import (
 
 	"slices"
 
+	"github.com/shopspring/decimal"
 	ssd "github.com/shopspring/decimal"
 	"golang.org/x/exp/constraints"
 )
@@ -684,12 +685,86 @@ func Val[T FieldTypeConstraint](value *T) T {
 //
 // This function requires version 1.18+
 func AnyVal[T FieldTypeConstraint](value any) T {
+	var (
+		r, v T
+		ok   bool
+	)
 	if IsInterfaceNil(value) {
 		return getZero[T]()
 	}
-	v, ok := value.(T)
-	if !ok {
-		return getZero[T]()
+	if v, ok = value.(T); ok {
+		return v
+	}
+	switch any(r).(type) {
+	case int:
+		switch v := value.(type) {
+		case string:
+			if i, err := strconv.Atoi(v); err == nil {
+				return any(i).(T)
+			}
+		case float64:
+			return any(int(v)).(T)
+		}
+	case int64:
+		switch v := value.(type) {
+		case string:
+			if i, err := strconv.ParseInt(v, 10, 64); err == nil {
+				return any(i).(T)
+			}
+		case float64:
+			return any(int64(v)).(T)
+		}
+	case float64:
+		switch v := value.(type) {
+		case string:
+			if f, err := strconv.ParseFloat(v, 64); err == nil {
+				return any(f).(T)
+			}
+		case int:
+			return any(float64(v)).(T)
+		}
+	case bool:
+		switch v := value.(type) {
+		case string:
+			if b, err := strconv.ParseBool(v); err == nil {
+				return any(b).(T)
+			}
+		}
+	case byte:
+		switch v := value.(type) {
+		case string:
+			if len(v) > 0 {
+				return any(v[0]).(T)
+			}
+		case int:
+			return any(byte(v)).(T)
+		}
+	case time.Time:
+		switch v := value.(type) {
+		case string:
+			// Try standard layouts, adjust as needed
+			layouts := []string{
+				time.RFC3339,
+				"2006-01-02 15:04:05",
+				"2006-01-02",
+			}
+			for _, layout := range layouts {
+				if t, err := time.Parse(layout, v); err == nil {
+					return any(t).(T)
+				}
+			}
+		}
+	case decimal.Decimal:
+		switch v := value.(type) {
+		case string:
+			if d, err := decimal.NewFromString(v); err == nil {
+				return any(d).(T)
+			}
+		case float64:
+			return any(decimal.NewFromFloat(v)).(T)
+		case int:
+			return any(decimal.NewFromInt(int64(v))).(T)
+		}
 	}
 	return v
 }
