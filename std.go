@@ -342,7 +342,7 @@ func Default[T FieldTypeConstraint](custom T, def T) T {
 	if zero == custom {
 		return def
 	}
-	return def
+	return custom
 }
 
 // MapVal retrieves a value from a map by a key and converts it to the type indicated by T.
