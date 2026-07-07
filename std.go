@@ -768,6 +768,17 @@ func AnyVal[T FieldTypeConstraint](value any) T {
 	return v
 }
 
+// AltErr allows an alternate error result if the primary error err is nil and fmtMsg is not empty
+func AltErr(err error, fmtMsg string, a ...any) error {
+	if err != nil {
+		return err
+	}
+	if fmtMsg == "" {
+		return nil
+	}
+	return fmt.Errorf(fmtMsg, a...)
+}
+
 func getZero[T FieldTypeConstraint | bool]() T {
 	var r T
 	return r
